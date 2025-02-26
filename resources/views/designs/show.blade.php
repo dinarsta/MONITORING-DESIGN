@@ -10,22 +10,15 @@
     <p><strong>Quantity:</strong> {{ $design->quantity }}</p>
     <p><strong>Designer:</strong> {{ $design->designer ? $design->designer->name : 'Tidak ada designer' }}</p>
     <p><strong>Status:</strong> {{ ucfirst($design->status) }}</p>
+    <p><strong>Catatan:</strong> {{ $design->notes ?? 'Tidak ada catatan' }}</p>
 
-    <h3>Catatan</h3>
-    <ul>
-        @foreach($design->notes as $note)
-            <li><strong>{{ $note->user->name }}:</strong> {{ $note->message }} ({{ $note->created_at->format('d-m-Y H:i') }})</li>
-        @endforeach
-    </ul>
-
-    <h3>Tambahkan Catatan</h3>
-    <form action="{{ route('designs.addNote', $design->id) }}" method="POST">
-        @csrf
-        <textarea name="message" rows="3" required></textarea><br>
-        <button type="submit">Kirim</button>
-    </form>
-
-    <br>
     <a href="{{ route('designs.index') }}">Kembali ke daftar</a>
+    <a href="{{ route('designs.edit', $design->id) }}">Edit</a>
+
+    <form action="{{ route('designs.destroy', $design->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Hapus</button>
+    </form>
 </body>
 </html>
